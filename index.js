@@ -73,16 +73,17 @@ class InCallManager {
         _InCallManager.setMicrophoneMute(enable);
     }
 
-    startRingtone(ringtone, vibrate_pattern, ios_category, seconds) {
+    startRingtone(ringtone, toneURI, vibrate_pattern, ios_category, seconds) {
         ringtone = (typeof ringtone === 'string') ? ringtone : "_DEFAULT_";
+        toneURI = (typeof toneURI === 'string') ? toneURI : null;
         this.vibrate = (Array.isArray(vibrate_pattern)) ? true : false;
         ios_category = (ios_category === 'playback') ? 'playback' : "default";
         seconds = (typeof seconds === 'number' && seconds > 0) ? parseInt(seconds) : -1; // --- android only, default looping
 
         if (Platform.OS === 'android') {
-            _InCallManager.startRingtone(ringtone, seconds);
+            _InCallManager.startRingtone(ringtone, toneURI, seconds);
         } else {
-            _InCallManager.startRingtone(ringtone, ios_category);
+            _InCallManager.startRingtone(ringtone, toneURI, ios_category);
         }
 
         // --- should not use repeat, it may cause infinite loop in some cases.
